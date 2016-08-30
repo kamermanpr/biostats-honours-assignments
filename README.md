@@ -1,7 +1,6 @@
 2016 Biostatistics assignment memorandum
 ================
 Peter Kamerman
-30 August 2016
 
 Assignment 1
 ============
@@ -629,9 +628,9 @@ summary(model)
 ``` r
 # Diagnostics
 #############
-# QQ-plot (normality of residuals)
+# Base graphics QQ-plot (normality of residuals)
 qqnorm(model$residuals)
-qqline(model$residuals) 
+qqline(model$residuals)  
 ```
 
 ![](README_files/figure-markdown_github/housing-3.png)

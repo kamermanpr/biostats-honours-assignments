@@ -1,7 +1,6 @@
 ---
 title: '2016 Biostatistics assignment memorandum'
 author: 'Peter Kamerman'
-date: "`r format(Sys.Date(), '%d %B %Y')`"
 output: github_document
 ---
 
