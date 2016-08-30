@@ -33,13 +33,13 @@ _Source:_ Anonymous (1948) Biometrika, 35, 214. McNeil DR. (1977). Interactive D
 
 ## Chunk 2
 ### The Hot Zone
-To investigate whether an outbreak of severe gastroenteritis in a samll town was caused by contaimination of the drinking water, investigators collected data on water consumption per day and the number of people who fell ill. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/gastroenteritis.csv?dl=1).
+To investigate whether an outbreak of severe gastroenteritis in a small town was caused by contaimination of the drinking water, investigators collected data on water consumption per day and the number of people who fell ill. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/gastroenteritis.csv?dl=1).
 
 _Source:_ O'Neil AE, Richen D, Lundrie P. (1985). A waterborne epidemic of acute infectious non-bacterial gastroenteritis in Alberta, Canada. Canadian Journal of Public Health 76: 199-203.
 
 ## Chunk 3
 ### Nausea
-Eight patients receiving emetogenic chemotherapy for breast cancer were asked to rate the intenisty of their nausea before and after receiving a 5HT~3~-receptor blocker. A numeric rating scale, anchored at 0 (no nausea) to 6 (severe nausea and vomiting) was used to rate nausea intensity. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/nausea.csv?dl=1).
+Eight patients receiving emetogenic chemotherapy for breast cancer were asked to rate the intensity of their nausea before and after receiving a 5HT~3~-receptor blocker. A numeric rating scale, anchored at 0 (no nausea) to 6 (severe nausea and vomiting) was used to rate nausea intensity. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/nausea.csv?dl=1).
 
 _Source:_ Unknown
 

@@ -25,6 +25,6 @@ You must initiate a git repository on your computer, and add an Rmarkdown file (
 - Text: 'I love Octocat. She's the coolest cat in town.'
 
 - Insert a picture of Octocat using the following link:
-https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/images/octocat.png
+https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/octocat.png
 
 Knit the the file and push the contents of the git repository to Github, and email the link to the Github repository to: peter.kamerman@wits.ac.za. 
