@@ -1,0 +1,45 @@
+---
+title: "Course-mark assignment 5"
+author: "Peter Kamerman"
+output: html_document
+---
+
+****
+
+**Assignment due:** Monday 15 August 2016 _(no extensions: 10% deduction for each day late)_
+
+**Assignment marks:** [30]
+
+****
+
+## Instructions
+
+Using the README.Rmd file you created and updated for Assignments 1 through 4, add three new code chunks (as described below). `Knit` the document, and the push the changes to Github. Email a link to the updated repo to: [peter.kamerman@wits.ac.za](mailto:peter.kamerman@wits.ac.za).
+
+Your task for this assignment is to import the datasets into your _R_ session, and for each dataset:
+- Tidy the data (if nessesary);
+- Explore the data with plots;  
+- State the _null_ and _alternative_ hypotheses;  
+- State the statistical test(s) you are going to use, and the assumptions that underlie the test(s);  
+- Provide the test statistic, degrees of freedom, p-value, and your interpretation of the outcome of the analysis _(where appropriate, use confidence intervals to interpret the size of the effect)_.   
+
+Set your chunk options to echo all code, and remember to annotate your code using '# comment' in your chunks so others can follow what you are doing at each step. And, use markdown headings and text between chunks to guide readers.
+
+## Chunk 1
+### Chicken weights
+An experiment was conducted to measure and compare the effectiveness of various feed supplements on the growth rate of chickens. Newly hatched chicks were randomly allocated into six groups, and each group was given a different feed supplement. Their weights in grams after six weeks are given along with feed types. The data from this experiment can be downloaded from [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/chick-weights.csv?dl=1).
+
+_Source:_ Anonymous (1948) Biometrika, 35, 214. McNeil DR. (1977). Interactive Data Analysis. New York: Wiley.
+
+## Chunk 2
+### The Hot Zone
+To investigate whether an outbreak of severe gastroenteritis in a samll town was caused by contaimination of the drinking water, investigators collected data on water consumption per day and the number of people who fell ill. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/gastroenteritis.csv?dl=1).
+
+_Source:_ O'Neil AE, Richen D, Lundrie P. (1985). A waterborne epidemic of acute infectious non-bacterial gastroenteritis in Alberta, Canada. Canadian Journal of Public Health 76: 199-203.
+
+## Chunk 3
+### Nausea
+Eight patients receiving emetogenic chemotherapy for breast cancer were asked to rate the intenisty of their nausea before and after receiving a 5HT~3~-receptor blocker. A numeric rating scale, anchored at 0 (no nausea) to 6 (severe nausea and vomiting) was used to rate nausea intensity. The data from the study can be downloaded [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/nausea.csv?dl=1).
+
+_Source:_ Unknown
+

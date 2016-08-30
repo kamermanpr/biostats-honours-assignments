@@ -1,0 +1,32 @@
+---
+title: "Course-mark assignment 3"
+author: "Peter Kamerman"
+output: html_document
+---
+
+****
+
+**Assignment due:** Monday 25 July 2016 _(no extensions: 10% deduction for each day late)_
+
+**Assignment marks:** [10]
+
+****
+
+## Instructions
+
+Using the README.Rmd file you created and updated in Assignment 1 and 2, respectively, add a code chunk (as described below), `knit`, and the push the changes to Github. 
+
+### Code chunk 2
+
+#### Set the following chunk options: 
+- Chunk name: xy_plot
+
+- Chunk content: do not echo the chunk content
+
+- Chunk figure options: 8 x 8 inch figure size, center images on the page, save figures to a subfolder called 'figures' and in 'svg' format.
+
+#### Add R code to produce the following output: 
+
+- Explore the contents of some of the data in R's anscombe dataset [first call: data(anscombe)], by plotting a scatterplot of columns x1 and y1. Add an abline showing the linear regression of y1 on x1 [code for linear regression: `lm(y1 ~ x1, data = anscombe)`].
+
+Knit the file, push the updates to Github, and email a link to the updated repo to: peter.kamerman@wits.ac.za

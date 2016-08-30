@@ -1,0 +1,30 @@
+---
+title: "Course-mark assignment 1"
+author: "Peter Kamerman"
+output: html_document
+---
+
+****
+
+**Assignment due:** Monday 18 July 2016 _(no extensions: 10% deduction for each day late)_
+
+**Assignment marks:** [10]
+
+****
+
+## Instructions
+
+You must initiate a git repository on your computer, and add an Rmarkdown file (named: README.Rmd) with its output configured to produce a github markdown document when `knit`. The file must contain the following information:
+
+- Title: 'Assignment 1'
+
+- Author: 'Your name or student number'
+
+- Level 2 (h2) heading: 'Hello Octocat'
+
+- Text: 'I love Octocat. She's the coolest cat in town.'
+
+- Insert a picture of Octocat using the following link:
+https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/images/octocat.png
+
+Knit the the file and push the contents of the git repository to Github, and email the link to the Github repository to: peter.kamerman@wits.ac.za. 

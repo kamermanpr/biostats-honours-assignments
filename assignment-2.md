@@ -1,0 +1,30 @@
+---
+title: "Course-mark assignment 2"
+author: "Peter Kamerman"
+output: html_document
+---
+
+****
+
+**Assignment due:** Friday 22 July 2016 _(no extensions: 10% deduction for each day late)_
+
+**Assignment marks:** [10]
+
+****
+
+## Instructions
+
+Using the README.Rmd file you created for Assignment 1 and add one code chunk (as described below), `knit`, and the push the changes to Github. 
+
+### Code chunk 1
+
+#### Set the following chunk options: 
+- Chunk name: quick_look
+
+- Chunk content: echo
+
+#### Add R code to produce the following output: 
+
+- Explore the contents of data the R dataset, anscombe [first call: data(anscombe)], showing the dimensions of the dataframe (how many rows and columns), the names of the columns, the contents of the first (head) and last (tail) six lines of the dataframe, and summary statistics for each column. 
+
+Knit the file, push the updates to Github, and email a link to the updated repo to: peter.kamerman@wits.ac.za.
