@@ -1,12 +1,11 @@
 ---
-title: '2016 Biostatistics assignment memorandum'
+title: '2017 Biostatistics assignment memorandum'
 author: 'Peter Kamerman'
 output: github_document
 ---
 
 ```{r global_options, include = FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
-
 ```
 
 # Assignment 1
@@ -119,9 +118,9 @@ data_tidy
 
 ## Chicken weights
 
-**Null hypothesis:** Feed type foes not affect the growth rate of hatchlings
+**Null hypothesis:** Feed type does not influence the growth rate of hatchlings
 
-**Alternative hypothesis:** Feed type influence growth rate of hatchlings
+**Alternative hypothesis:** Feed type influences growth rate of hatchlings
 
 ```{r chicken_weights}
 # Load packages
@@ -155,7 +154,9 @@ ggplot(data = data, aes(x = feed, y = weight)) + # data and aesthetic mapping
 # Analysis
 ##########
 ## Will assume growth rate is normally distributed, therefore analyse using
-## 1-way ANOVA for unmatched pairs
+## 1-way ANOVA for unmatched pairs. If you chose to use a non-parametric test, 
+## The equivalent omnibus test would be 'kruskal.test(...)', and the post-hoc 
+## tests would use 'pairwise.wilcox.test(...)'.
 
 ## Parametric test, therefore the following assumption need to be met:
 # - The distribution of the data in the population is Gaussian
@@ -166,16 +167,14 @@ ggplot(data = data, aes(x = feed, y = weight)) + # data and aesthetic mapping
 # Anova
 summary(aov(weight ~ feed, data = data))
 ## Significant main effect: F(5, 65) = 15.37, p < 0.01
+## Reject H0 and accept H1. That is, the feed type influences growth rate 
+## of hatchlings. 
 
 # Perform post-poc tests to detect where differences lie
-with(data, pairwise.t.test(x = weight, g = feed, 
-                                            p.adjust.method = 'holm',
-                                            paired = FALSE))
-
-x <- with(data, pairwise.t.test(x = weight, g = feed, 
-                                            p.adjust.method = 'holm',
-                                            paired = FALSE))
-## I'll leave you to intepret the output
+with(data, pairwise.t.test(x = weight, 
+                           g = feed, 
+                           p.adjust.method = 'holm',
+                           paired = FALSE)) # I'll leave you to intepret the output
 
 # CI interpretation
 data %>%
@@ -183,7 +182,8 @@ data %>%
     t.test(weight ~ feed, data = .) %>%
     .$conf.int
 
-#...repeat for all pairs and interpret magnitide of the difference
+#...repeat for all pairs and interpret the post-hoc tests in the context of 
+# the magnitide of the differences in means. 
 
 ```
 
@@ -230,21 +230,15 @@ mosaicplot(prop.table(data_x, 1))
 ## The following assumption need to be met:
 # - Random sampling
 # - Observations are independent (unpaired)
-# - Large sample, with adequate expected cell counts
-#       - 2 x 2 table: Expected ≥ 5 in all cells;
-#       - ≥ 2 x 3 table: Expected ≥ 5 in 80% of cells;
-#       - Expected ≠ 0 in any cell.
-# - Assumes the discrete probability of observed frequencies in the table can be approximated by the continuous χ2 distribution.
+# - Observations follow the same distribution
 
 # CMH test for ordinal data
 library(vcdExtra)
 CMHtest(data_x, types = c('cmeans'))
 
 # X^2 = 74.9, df = 2, n = 1094, p < 0.01  
-# Reject H0 and accept H1
-
-# Pairwise comparisons...
-
+# Reject H0 and accept H1. That is, the risk of gastroenteritis increases with
+# increasing amount of water consumed.
 ```
 
 ## Nausea
@@ -268,6 +262,11 @@ data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostat
 # Quick look
 ############
 data
+
+# Remove patient 8's data. Funny number in Nausea_after column. Without original
+# records, we cannot confirm whether this is just a case of adduing a zero after 
+# a score of '4', or a complete transcriuption error.
+data <- data[-8, ]
 
 # Tidy data
 ###########
@@ -296,10 +295,10 @@ ggplot(data = data_tidy, aes(x = key, y = value)) +
 # Analysis
 ##########
 wilcox.test(value ~ key, paired = TRUE, data = data_tidy)
+# wilcox.test(data$Nausea_before, data$Nausea_after, paired = TRUE)
 
-# V = 10, p = 0.2
+# V = 2, p = 0.05
 # No reason to reject H0. That is, the drug did not affect nausea symptoms
-
 ```
 
 ****
@@ -351,7 +350,7 @@ ggplot(data = data, aes(x = interest_rate, y = median_house_price_USD)) +
 # Analysis
 ##########
 model <- lm(median_house_price_USD ~ interest_rate, data = data)
-summary(model)
+summary(model) # Hold off interpreting the model until you've done the diagnostics.
 
 # Diagnostics
 #############
@@ -371,6 +370,15 @@ ggplot(data = model, aes(y = model$residuals, x = model$fitted)) +
     geom_hline(yintercept = 0)
 # Looks cone-shaped, which isn't good.
 
-# Failed diagnostics, so have to find a better model (e.g., glm of some sought)
+# An alternative way to get the diagnostic plots is:
+par(mfcol = c(2, 2))
+plot(model)
+par(mfcol = c(1, 1))
 
+# Failed diagnostics, so have to find a better model (e.g., transform the 
+# data or use glm with an appropriate link function).
+```
+
+```{r sesioninfo}
+sessionInfo()
 ```
