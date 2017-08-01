@@ -7,4 +7,7 @@
 *.pdf
 *.R
 *.md
+*.xlsx
 .DS_Store
+2017-marks.csv
+
