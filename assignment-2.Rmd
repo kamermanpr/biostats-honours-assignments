@@ -1,12 +1,14 @@
 ---
 title: "Course-mark assignment 2"
 author: "Peter Kamerman"
-output: html_document
+output: 
+    html_document:
+        theme: yeti
 ---
 
 ****
 
-**Assignment due:** Friday 22 July 2016 _(no extensions: 10% deduction for each day late)_
+**Assignment due:** See submission deadline at [Intro to Biostats](http://painblogr.org/biostatistics.html) _(no extensions: 10% deduction for each day late)_
 
 **Assignment marks:** [10]
 
