@@ -1,4 +1,4 @@
-2016 Biostatistics assignment memorandum
+2017 Biostatistics assignment memorandum
 ================
 Peter Kamerman
 
@@ -124,7 +124,7 @@ names(data)
 head(data)
 ```
 
-    ## # A tibble: 6 × 5
+    ## # A tibble: 6 x 5
     ##      ID     Group Measurement_1 Measurement_2 Measurement_3
     ##   <int>     <chr>         <int>         <int>         <int>
     ## 1     1 Analgesic            26            26            21
@@ -138,7 +138,7 @@ head(data)
 tail(data)
 ```
 
-    ## # A tibble: 6 × 5
+    ## # A tibble: 6 x 5
     ##      ID   Group Measurement_1 Measurement_2 Measurement_3
     ##   <int>   <chr>         <int>         <int>         <int>
     ## 1    35 Placebo            17            21            15
@@ -193,20 +193,19 @@ data_tidy <- data %>%
 data_tidy
 ```
 
-    ## Source: local data frame [40 x 3]
-    ## Groups: Group [?]
-    ## 
+    ## # A tibble: 40 x 3
+    ## # Groups:   Group [?]
     ##        Group    ID     mean
     ##        <chr> <int>    <dbl>
-    ## 1  Analgesic     1 24.33333
-    ## 2  Analgesic     2 26.00000
-    ## 3  Analgesic     3 24.66667
-    ## 4  Analgesic     4 23.66667
-    ## 5  Analgesic     5 25.00000
-    ## 6  Analgesic     6 23.66667
-    ## 7  Analgesic     7 26.66667
-    ## 8  Analgesic     8 23.33333
-    ## 9  Analgesic     9 22.66667
+    ##  1 Analgesic     1 24.33333
+    ##  2 Analgesic     2 26.00000
+    ##  3 Analgesic     3 24.66667
+    ##  4 Analgesic     4 23.66667
+    ##  5 Analgesic     5 25.00000
+    ##  6 Analgesic     6 23.66667
+    ##  7 Analgesic     7 26.66667
+    ##  8 Analgesic     8 23.33333
+    ##  9 Analgesic     9 22.66667
     ## 10 Analgesic    10 24.00000
     ## # ... with 30 more rows
 
@@ -218,9 +217,9 @@ Assignment 5
 Chicken weights
 ---------------
 
-**Null hypothesis:** Feed type foes not affect the growth rate of hatchlings
+**Null hypothesis:** Feed type does not influence the growth rate of hatchlings
 
-**Alternative hypothesis:** Feed type influence growth rate of hatchlings
+**Alternative hypothesis:** Feed type influences growth rate of hatchlings
 
 ``` r
 # Load packages
@@ -239,18 +238,18 @@ data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostat
 data
 ```
 
-    ## # A tibble: 71 × 2
+    ## # A tibble: 71 x 2
     ##    weight      feed
     ##     <int>     <chr>
-    ## 1     179 horsebean
-    ## 2     160 horsebean
-    ## 3     136 horsebean
-    ## 4     227 horsebean
-    ## 5     217 horsebean
-    ## 6     168 horsebean
-    ## 7     108 horsebean
-    ## 8     124 horsebean
-    ## 9     143 horsebean
+    ##  1    179 horsebean
+    ##  2    160 horsebean
+    ##  3    136 horsebean
+    ##  4    227 horsebean
+    ##  5    217 horsebean
+    ##  6    168 horsebean
+    ##  7    108 horsebean
+    ##  8    124 horsebean
+    ##  9    143 horsebean
     ## 10    140 horsebean
     ## # ... with 61 more rows
 
@@ -265,7 +264,7 @@ data
 with(data, boxplot(weight ~ feed))
 ```
 
-![](README_files/figure-markdown_github/chicken_weights-1.png)
+![](README_files/figure-markdown_github-ascii_identifiers/chicken_weights-1.png)
 
 ``` r
 ## ggplot
@@ -273,7 +272,7 @@ ggplot(data = data, aes(x = feed, y = weight)) + # data and aesthetic mapping
     geom_boxplot() # boxplot geom
 ```
 
-![](README_files/figure-markdown_github/chicken_weights-2.png)
+![](README_files/figure-markdown_github-ascii_identifiers/chicken_weights-2.png)
 
 ``` r
 # Looks like there may be a differerence betwen groups (horsebean = worst)
@@ -281,7 +280,9 @@ ggplot(data = data, aes(x = feed, y = weight)) + # data and aesthetic mapping
 # Analysis
 ##########
 ## Will assume growth rate is normally distributed, therefore analyse using
-## 1-way ANOVA for unmatched pairs
+## 1-way ANOVA for unmatched pairs. If you chose to use a non-parametric test, 
+## The equivalent omnibus test would be 'kruskal.test(...)', and the post-hoc 
+## tests would use 'pairwise.wilcox.test(...)'.
 
 ## Parametric test, therefore the following assumption need to be met:
 # - The distribution of the data in the population is Gaussian
@@ -301,11 +302,14 @@ summary(aov(weight ~ feed, data = data))
 
 ``` r
 ## Significant main effect: F(5, 65) = 15.37, p < 0.01
+## Reject H0 and accept H1. That is, the feed type influences growth rate 
+## of hatchlings. 
 
 # Perform post-poc tests to detect where differences lie
-with(data, pairwise.t.test(x = weight, g = feed, 
-                                            p.adjust.method = 'holm',
-                                            paired = FALSE))
+with(data, pairwise.t.test(x = weight, 
+                           g = feed, 
+                           p.adjust.method = 'holm',
+                           paired = FALSE)) # I'll leave you to intepret the output
 ```
 
     ## 
@@ -323,11 +327,6 @@ with(data, pairwise.t.test(x = weight, g = feed,
     ## P value adjustment method: holm
 
 ``` r
-x <- with(data, pairwise.t.test(x = weight, g = feed, 
-                                            p.adjust.method = 'holm',
-                                            paired = FALSE))
-## I'll leave you to intepret the output
-
 # CI interpretation
 data %>%
     filter(feed == 'casein' | feed == 'horsebean') %>%
@@ -340,7 +339,8 @@ data %>%
     ## [1] 0.95
 
 ``` r
-#...repeat for all pairs and interpret magnitide of the difference
+#...repeat for all pairs and interpret the post-hoc tests in the context of 
+# the magnitide of the differences in means. 
 ```
 
 Drinking water
@@ -367,18 +367,18 @@ data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostat
 data
 ```
 
-    ## # A tibble: 1,094 × 2
+    ## # A tibble: 1,094 x 2
     ##        Consumption Outcome
     ##              <chr>   <chr>
-    ## 1  < 1 glasses/day     ill
-    ## 2  < 1 glasses/day     ill
-    ## 3  < 1 glasses/day     ill
-    ## 4  < 1 glasses/day     ill
-    ## 5  < 1 glasses/day     ill
-    ## 6  < 1 glasses/day     ill
-    ## 7  < 1 glasses/day     ill
-    ## 8  < 1 glasses/day     ill
-    ## 9  < 1 glasses/day     ill
+    ##  1 < 1 glasses/day     ill
+    ##  2 < 1 glasses/day     ill
+    ##  3 < 1 glasses/day     ill
+    ##  4 < 1 glasses/day     ill
+    ##  5 < 1 glasses/day     ill
+    ##  6 < 1 glasses/day     ill
+    ##  7 < 1 glasses/day     ill
+    ##  8 < 1 glasses/day     ill
+    ##  9 < 1 glasses/day     ill
     ## 10 < 1 glasses/day     ill
     ## # ... with 1,084 more rows
 
@@ -394,14 +394,14 @@ data_x <- xtabs(~ Outcome + Consumption, data = data)
 mosaicplot(data_x)
 ```
 
-![](README_files/figure-markdown_github/drinking%20water-1.png)
+![](README_files/figure-markdown_github-ascii_identifiers/drinking%20water-1.png)
 
 ``` r
 ## Base graphics - proportions (down rows)
 mosaicplot(prop.table(data_x, 1))
 ```
 
-![](README_files/figure-markdown_github/drinking%20water-2.png)
+![](README_files/figure-markdown_github-ascii_identifiers/drinking%20water-2.png)
 
 ``` r
 # Analysis
@@ -412,11 +412,7 @@ mosaicplot(prop.table(data_x, 1))
 ## The following assumption need to be met:
 # - Random sampling
 # - Observations are independent (unpaired)
-# - Large sample, with adequate expected cell counts
-#       - 2 x 2 table: Expected ≥ 5 in all cells;
-#       - ≥ 2 x 3 table: Expected ≥ 5 in 80% of cells;
-#       - Expected ≠ 0 in any cell.
-# - Assumes the discrete probability of observed frequencies in the table can be approximated by the continuous χ2 distribution.
+# - Observations follow the same distribution
 
 # CMH test for ordinal data
 library(vcdExtra)
@@ -430,9 +426,8 @@ CMHtest(data_x, types = c('cmeans'))
 
 ``` r
 # X^2 = 74.9, df = 2, n = 1094, p < 0.01  
-# Reject H0 and accept H1
-
-# Pairwise comparisons...
+# Reject H0 and accept H1. That is, the risk of gastroenteritis increases with
+# increasing amount of water consumed.
 ```
 
 Nausea
@@ -459,7 +454,7 @@ data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostat
 data
 ```
 
-    ## # A tibble: 8 × 3
+    ## # A tibble: 8 x 3
     ##   Patient Nausea_before Nausea_after
     ##     <int>         <int>        <int>
     ## 1       1             3            2
@@ -472,6 +467,11 @@ data
     ## 8       8             6           40
 
 ``` r
+# Remove patient 8's data. Funny number in Nausea_after column. Without original
+# records, we cannot confirm whether this is just a case of adduing a zero after 
+# a score of '4', or a complete transcriuption error.
+data <- data[-8, ]
+
 # Tidy data
 ###########
 # Gather and change Patient column class
@@ -486,7 +486,7 @@ data_tidy <- data %>%
 with(data_tidy, boxplot(value ~ key))
 ```
 
-![](README_files/figure-markdown_github/nausea-1.png)
+![](README_files/figure-markdown_github-ascii_identifiers/nausea-1.png)
 
 ``` r
 ## ggplot
@@ -494,7 +494,7 @@ ggplot(data = data_tidy, aes(x = key, y = value)) +
     geom_boxplot()
 ```
 
-![](README_files/figure-markdown_github/nausea-2.png)
+![](README_files/figure-markdown_github-ascii_identifiers/nausea-2.png)
 
 ``` r
 # Because of the discrete nature of the rating scale and some extreme values,
@@ -513,11 +513,13 @@ wilcox.test(value ~ key, paired = TRUE, data = data_tidy)
     ##  Wilcoxon signed rank test with continuity correction
     ## 
     ## data:  value by key
-    ## V = 10, p-value = 0.2906
+    ## V = 2, p-value = 0.04983
     ## alternative hypothesis: true location shift is not equal to 0
 
 ``` r
-# V = 10, p = 0.2
+# wilcox.test(data$Nausea_before, data$Nausea_after, paired = TRUE)
+
+# V = 2, p = 0.05
 # No reason to reject H0. That is, the drug did not affect nausea symptoms
 ```
 
@@ -547,18 +549,18 @@ data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostat
 data
 ```
 
-    ## # A tibble: 17 × 2
+    ## # A tibble: 17 x 2
     ##    interest_rate median_house_price_USD
     ##            <int>                  <int>
-    ## 1             10                 183800
-    ## 2             10                 183200
-    ## 3             10                 174900
-    ## 4              9                 173500
-    ## 5              8                 172900
-    ## 6              7                 173200
-    ## 7              8                 173200
-    ## 8              8                 169700
-    ## 9              8                 174500
+    ##  1            10                 183800
+    ##  2            10                 183200
+    ##  3            10                 174900
+    ##  4             9                 173500
+    ##  5             8                 172900
+    ##  6             7                 173200
+    ##  7             8                 173200
+    ##  8             8                 169700
+    ##  9             8                 174500
     ## 10             8                 177900
     ## 11             7                 188100
     ## 12             7                 203200
@@ -580,7 +582,7 @@ data <- data[complete.cases(data), ]
 with(data, plot(x = interest_rate, y = median_house_price_USD))
 ```
 
-![](README_files/figure-markdown_github/housing-1.png)
+![](README_files/figure-markdown_github-ascii_identifiers/housing-1.png)
 
 ``` r
 # ggplot
@@ -588,7 +590,7 @@ ggplot(data = data, aes(x = interest_rate, y = median_house_price_USD)) +
     geom_point()
 ```
 
-![](README_files/figure-markdown_github/housing-2.png)
+![](README_files/figure-markdown_github-ascii_identifiers/housing-2.png)
 
 ``` r
 # Looks fairly linear and without outliers/influence points, so do linear
@@ -603,7 +605,7 @@ ggplot(data = data, aes(x = interest_rate, y = median_house_price_USD)) +
 # Analysis
 ##########
 model <- lm(median_house_price_USD ~ interest_rate, data = data)
-summary(model)
+summary(model) # Hold off interpreting the model until you've done the diagnostics.
 ```
 
     ## 
@@ -633,7 +635,7 @@ qqnorm(model$residuals)
 qqline(model$residuals)  
 ```
 
-![](README_files/figure-markdown_github/housing-3.png)
+![](README_files/figure-markdown_github-ascii_identifiers/housing-3.png)
 
 ``` r
 # Not pretty (but could be due to low sample size)
@@ -644,7 +646,7 @@ plot(y = model$residuals, x = model$fitted)
 abline(h = 0)
 ```
 
-![](README_files/figure-markdown_github/housing-4.png)
+![](README_files/figure-markdown_github-ascii_identifiers/housing-4.png)
 
 ``` r
 # ggplot
@@ -653,10 +655,56 @@ ggplot(data = model, aes(y = model$residuals, x = model$fitted)) +
     geom_hline(yintercept = 0)
 ```
 
-![](README_files/figure-markdown_github/housing-5.png)
+![](README_files/figure-markdown_github-ascii_identifiers/housing-5.png)
 
 ``` r
 # Looks cone-shaped, which isn't good.
 
-# Failed diagnostics, so have to find a better model (e.g., glm of some sought)
+# An alternative way to get the diagnostic plots is:
+par(mfcol = c(2, 2))
+plot(model)
 ```
+
+![](README_files/figure-markdown_github-ascii_identifiers/housing-6.png)
+
+``` r
+par(mfcol = c(1, 1))
+
+# Failed diagnostics, so have to find a better model (e.g., transform the 
+# data or use glm with an appropriate link function).
+```
+
+``` r
+sessionInfo()
+```
+
+    ## R version 3.4.1 (2017-06-30)
+    ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+    ## Running under: macOS Sierra 10.12.6
+    ## 
+    ## Matrix products: default
+    ## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+    ## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+    ## 
+    ## locale:
+    ## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+    ## 
+    ## attached base packages:
+    ## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+    ## [8] base     
+    ## 
+    ## other attached packages:
+    ## [1] vcdExtra_0.7-0 gnm_1.0-8      vcd_1.4-3      bindrcpp_0.2  
+    ## [5] readr_1.1.1    tidyr_0.6.3    dplyr_0.7.2    ggplot2_2.2.1 
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] Rcpp_0.12.12     ca_0.70          compiler_3.4.1   plyr_1.8.4      
+    ##  [5] bindr_0.1        tools_3.4.1      digest_0.6.12    evaluate_0.10.1 
+    ##  [9] tibble_1.3.3     gtable_0.2.0     lattice_0.20-35  pkgconfig_2.0.1 
+    ## [13] rlang_0.1.1.9000 Matrix_1.2-10    curl_2.8.1       yaml_2.1.14     
+    ## [17] relimp_1.0-5     stringr_1.2.0    knitr_1.16       qvcalc_0.9-0    
+    ## [21] hms_0.3          nnet_7.3-12      rprojroot_1.2    lmtest_0.9-35   
+    ## [25] glue_1.1.1       R6_2.2.2         rmarkdown_1.6    magrittr_1.5    
+    ## [29] backports_1.1.0  scales_0.4.1     htmltools_0.3.6  MASS_7.3-47     
+    ## [33] assertthat_0.2.0 colorspace_1.3-2 labeling_0.3     stringi_1.1.5   
+    ## [37] lazyeval_0.2.0   munsell_0.4.3    zoo_1.8-0
