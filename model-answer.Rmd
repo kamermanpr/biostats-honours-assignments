@@ -1,0 +1,384 @@
+---
+title: '2017 Biostatistics assignment memorandum'
+author: 'Peter Kamerman'
+output: github_document
+---
+
+```{r global_options, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Assignment 1
+
+## Hello Octocat
+
+I love Octocat. She’s the coolest cat in town.
+
+![octocat](octocat.png)
+
+****
+
+# Assignment 2
+
+```{r quick_look, echo = TRUE}
+# 'Promise' the anscombe dataset (not essential)
+data('anscombe')
+
+# Dimensions
+dim(anscombe)
+
+# Column names
+names(anscombe)
+
+# top-and-tail (default is 6 lines)
+head(anscombe)
+tail(anscombe)
+
+# Summary stats
+summary(anscombe)
+```
+
+****
+
+# Assignment 3
+
+```{r xy_plot, echo = FALSE, fig.align = 'center', fig.height = 8, fig.width = 8, fig.path = './figures/', dev = 'svg'}
+
+# Scatter plot of 'x1' vs 'y1' from anscombe dataset
+## Base graphics
+with(anscombe, plot(x = x1, y = y1)) # scatter plot
+abline(lm(y1 ~ x1, data = anscombe)) # add abline
+
+## ggplot
+library(ggplot2) # (alternatively use ggplot2::ggplot(....))
+ggplot(data = anscombe, aes(x = x1, y = y1)) + # Set data and aesthestics
+    geom_point() + # Add points
+    geom_smooth(method = 'lm', se = FALSE) # Add abline (without error shading)
+
+```
+
+****
+
+# Assignment 4
+
+## Chick weights
+
+### Import data
+```{r data_import, echo = TRUE}
+# Read directly from URL 
+## Only using one 'readr' function so using 'readr::' method to call function
+data <- readr::read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/analgesic.csv')
+
+```
+
+### Quick look
+```{r data_summary, echo = TRUE}
+# Dimensions
+dim(data)
+
+# Column names
+names(data)
+
+# Top-and-tail
+head(data)
+tail(data)
+
+# Summary stats
+summary(data)
+
+```
+
+### Clean data
+```{r data_tidy, echo = TRUE}
+# Load packages
+library(dplyr)
+library(tidyr)
+
+data_tidy <- data %>%
+    # Gather measurement columns
+    ## Using 'starts_with' function to select columns
+    gather(key = Measurement, value = value, starts_with('Meas')) %>%
+    ## Some alternative gather options
+    ### gather(key = Measurement, value = value, 3:5) %>%
+    ### gather(key = Measurement, value = value, Measurement_1, Measurement_2, Measurement_3) %>%
+    ### gather(key = Measurement, value = value, -ID, -Group) %>%
+    # Summarise columns
+    ## First group the data. First by intervention, then by subject ID
+    group_by(Group, ID) %>%
+    ## Then summarise
+    summarise(mean = mean(value))
+
+# Quick look
+data_tidy
+```
+
+****
+
+# Assignment 5
+
+## Chicken weights
+
+**Null hypothesis:** Feed type does not influence the growth rate of hatchlings
+
+**Alternative hypothesis:** Feed type influences growth rate of hatchlings
+
+```{r chicken_weights}
+# Load packages
+###############
+library(readr)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+
+# Import data
+#############
+data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/chick-weights.csv?dl=1')
+
+# Quick look
+############
+data
+
+# Tidy data
+###########
+## Data already in tidy (long) format
+
+# Plot data
+###########
+## Base graphics
+with(data, boxplot(weight ~ feed))
+## ggplot
+ggplot(data = data, aes(x = feed, y = weight)) + # data and aesthetic mapping
+    geom_boxplot() # boxplot geom
+# Looks like there may be a differerence betwen groups (horsebean = worst)
+
+# Analysis
+##########
+## Will assume growth rate is normally distributed, therefore analyse using
+## 1-way ANOVA for unmatched pairs. If you chose to use a non-parametric test, 
+## The equivalent omnibus test would be 'kruskal.test(...)', and the post-hoc 
+## tests would use 'pairwise.wilcox.test(...)'.
+
+## Parametric test, therefore the following assumption need to be met:
+# - The distribution of the data in the population is Gaussian
+# - Equal variance across groups
+# - The errors are independent
+# - Data are unmatched
+
+# Anova
+summary(aov(weight ~ feed, data = data))
+## Significant main effect: F(5, 65) = 15.37, p < 0.01
+## Reject H0 and accept H1. That is, the feed type influences growth rate 
+## of hatchlings. 
+
+# Perform post-poc tests to detect where differences lie
+with(data, pairwise.t.test(x = weight, 
+                           g = feed, 
+                           p.adjust.method = 'holm',
+                           paired = FALSE)) # I'll leave you to intepret the output
+
+# CI interpretation
+data %>%
+    filter(feed == 'casein' | feed == 'horsebean') %>%
+    t.test(weight ~ feed, data = .) %>%
+    .$conf.int
+
+#...repeat for all pairs and interpret the post-hoc tests in the context of 
+# the magnitide of the differences in means. 
+
+```
+
+## Drinking water
+
+**Null hypothesis:** There is no association between number of glasses of drinking water consumed and contracting gastoenteritis.
+
+**Alternative hypothesis:** The risk of gastroenteritis increases with increasing amount of water consumed. 
+
+```{r drinking water}
+# Load packages
+###############
+#library(readr)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+
+# Import data
+#############
+data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/gastroenteritis.csv')
+
+# Quick look
+############
+data
+
+# Tidy data
+###########
+# Tabulate data
+data_x <- xtabs(~ Outcome + Consumption, data = data)
+
+# Plot data
+###########
+## Base graphics - raw numbers
+mosaicplot(data_x)
+
+## Base graphics - proportions (down rows)
+mosaicplot(prop.table(data_x, 1))
+
+# Analysis
+##########
+## Ordinal data
+
+
+## The following assumption need to be met:
+# - Random sampling
+# - Observations are independent (unpaired)
+# - Observations follow the same distribution
+
+# CMH test for ordinal data
+library(vcdExtra)
+CMHtest(data_x, types = c('cmeans'))
+
+# X^2 = 74.9, df = 2, n = 1094, p < 0.01  
+# Reject H0 and accept H1. That is, the risk of gastroenteritis increases with
+# increasing amount of water consumed.
+```
+
+## Nausea
+
+**Null hypothesis:** The 5HT receptor block does not affect nausea symptoms.
+
+**Alternative hypothesis:** The 5HT receptor blocker reduces nausea symptoms. 
+
+```{r nausea}
+# Load packages
+###############
+#library(readr)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+
+# Import data
+#############
+data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/nausea.csv')
+
+# Quick look
+############
+data
+
+# Remove patient 8's data. Funny number in Nausea_after column. Without original
+# records, we cannot confirm whether this is just a case of adduing a zero after 
+# a score of '4', or a complete transcriuption error.
+data <- data[-8, ]
+
+# Tidy data
+###########
+# Gather and change Patient column class
+data_tidy <- data %>%
+    mutate(Patient = factor(Patient)) %>%
+    gather(key = key, value = value, -Patient) %>%
+    arrange(Patient)
+
+# Plot data
+###########
+## Base graphics 
+with(data_tidy, boxplot(value ~ key))
+
+## ggplot
+ggplot(data = data_tidy, aes(x = key, y = value)) +
+    geom_boxplot()
+
+# Because of the discrete nature of the rating scale and some extreme values,
+# analyse using non-parametric, paired two-way test: Wilcoxon signed rank test
+# Test assumptions:
+# - The errors are independent
+# - Matching is effective
+# - Samples are drawn from populations with the same shape distributions.
+
+# Analysis
+##########
+wilcox.test(value ~ key, paired = TRUE, data = data_tidy)
+# wilcox.test(data$Nausea_before, data$Nausea_after, paired = TRUE)
+
+# V = 2, p = 0.05
+# No reason to reject H0. That is, the drug did not affect nausea symptoms
+```
+
+****
+
+# Assignment 6
+
+**Null hypothesis:** There is no linear relationship between housing prices and interest rates in the US.
+
+**Alternative hypothesis:** There is a negative (inverse) relationship between housing prices and interest rates in the US. 
+
+```{r housing}
+# Load packages
+###############
+#library(readr)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+
+# Import data
+#############
+data <- read_csv('https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/housing-prices.csv')
+
+# Quick look
+############
+data
+
+# Tidy data
+###########
+# Remove row of NAs
+data <- data[complete.cases(data), ]
+
+# Plot
+######
+# Base graphics
+with(data, plot(x = interest_rate, y = median_house_price_USD))
+# ggplot
+ggplot(data = data, aes(x = interest_rate, y = median_house_price_USD)) +
+    geom_point()
+
+# Looks fairly linear and without outliers/influence points, so do linear
+# regression
+# Test assumes:
+# - There is a linear trend between x and y.
+# - The observations in the sample are independent.
+# - x is measured without error.
+# - The residuals are normally distributed.
+# - The residuals have the same variance for all fitted values of y
+
+# Analysis
+##########
+model <- lm(median_house_price_USD ~ interest_rate, data = data)
+summary(model) # Hold off interpreting the model until you've done the diagnostics.
+
+# Diagnostics
+#############
+# Base graphics QQ-plot (normality of residuals)
+qqnorm(model$residuals)
+qqline(model$residuals)  
+    
+# Not pretty (but could be due to low sample size)
+
+# fitted vs residual plot (homoskedasticity)
+# Base graphics
+plot(y = model$residuals, x = model$fitted)
+abline(h = 0)
+# ggplot
+ggplot(data = model, aes(y = model$residuals, x = model$fitted)) +
+    geom_point() +
+    geom_hline(yintercept = 0)
+# Looks cone-shaped, which isn't good.
+
+# An alternative way to get the diagnostic plots is:
+par(mfcol = c(2, 2))
+plot(model)
+par(mfcol = c(1, 1))
+
+# Failed diagnostics, so have to find a better model (e.g., transform the 
+# data or use glm with an appropriate link function).
+```
+
+```{r sesioninfo}
+sessionInfo()
+```
