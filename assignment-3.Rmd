@@ -31,4 +31,4 @@ Using the README.Rmd file you created and updated in Assignment 1 and 2, respect
 
 - Explore the contents of some of the data in R's anscombe dataset [first call: data(anscombe)], by plotting a scatterplot of columns x1 and y1. Add an abline showing the linear regression of y1 on x1 [code for linear regression: `lm(y1 ~ x1, data = anscombe)`].
 
-Knit the file, push the updates to Github, and email a link to the updated repo to: peter.kamerman@wits.ac.za
+Knit the file, push the updates to Github, and email a link to the updated repo to: [peter.kamerman@wits.ac.za](mailto:peter.kamerman@wits.ac.za).

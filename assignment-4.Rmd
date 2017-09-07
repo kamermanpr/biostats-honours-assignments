@@ -25,7 +25,7 @@ Using the README.Rmd file you created and updated for Assignments 1 through 3, a
 
 ### Code chunk 4
 
-- Using the `readr` package, read data from the following file: analgesic.csv (url: https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/analgesic.csv) into a dataframe object called 'df'.  
+- Using the `readr` package, read data from the following file: analgesic.csv (url: https://www.dropbox.com/s/boc4m4gpb9vkhgj/analgesic.csv?dl=1) into a dataframe object called 'df'.  
 
 #### Code chunk 5
 
@@ -37,4 +37,4 @@ Using the README.Rmd file you created and updated for Assignments 1 through 3, a
 
 _Remember to annotate your code using '# comment' in your chunks so others can follow what you are doing at each step. You can also use markdown headings and text between chunks to guide readers (2 bonus marks)._
 
-Knit the file, push the updates to Github, and email a link to the updated repo to: peter.kamerman@wits.ac.za
+Knit the file, push the updates to Github, and email a link to the updated repo to: [peter.kamerman@wits.ac.za](mailto:peter.kamerman@wits.ac.za).

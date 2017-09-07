@@ -29,7 +29,7 @@ Set your chunk options to echo all code, and remember to annotate your code usin
 
 ## Chunk 1
 ### Housing prices
-The dataset includes data on the interest rate and house prices in the USA. Explore the dataset. The data can be downloaded from [here](https://dl.dropboxusercontent.com/u/11805474/painblogr/biostats/assignments/housing-prices.csv?dl=1).
+The dataset includes data on the interest rate and house prices in the USA. Explore the dataset. The data can be accessed at: https://www.dropbox.com/s/2lsr4x5msrlnbuq/housing-prices.csv?dl=1.
 
 Once you have completed the analysis, re-format your exploratory figure to be publication ready (use _ggplot2_ or _R base graphics_). Things to consider include, but are not limited to: axis titles, font sizes, plot dimensions, point size/colour/shape, whether to include a regression line (with or without error data).
 
