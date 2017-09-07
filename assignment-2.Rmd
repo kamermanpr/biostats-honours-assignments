@@ -29,4 +29,4 @@ Using the README.Rmd file you created for Assignment 1 and add one code chunk (a
 
 - Explore the contents of data the R dataset, anscombe [first call: data(anscombe)], showing the dimensions of the dataframe (how many rows and columns), the names of the columns, the contents of the first (head) and last (tail) six lines of the dataframe, and summary statistics for each column. 
 
-Knit the file, push the updates to Github, and email a link to the updated repo to: [peter.kamerman@wits.ac.za](mailto:peter.kamerman@wits.ac.za)
+Knit the file, push the updates to Github, and email a link to the updated repo to: [peter.kamerman@wits.ac.za](mailto:peter.kamerman@wits.ac.za).
